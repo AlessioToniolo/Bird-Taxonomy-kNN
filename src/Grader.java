@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
-public class BirdWatching {
+public class Grader {
     public ArrayList<Bird> birds;
     public ArrayList<Bird> unknowns;
 
-    public BirdWatching(ArrayList<Bird> birds, ArrayList<Bird> unknowns) {
+    public Grader(ArrayList<Bird> birds, ArrayList<Bird> unknowns) {
         this.birds = birds;
         this.unknowns = unknowns;
     }
@@ -28,35 +28,57 @@ public class BirdWatching {
     public String voter(Bird start, int k) {
         ArrayList<Bird> candidates = new ArrayList<Bird>();
         ArrayList<Double> distances = getDistances(start);
-        double closestDistance = Double.POSITIVE_INFINITY;
-        Bird closestPoint = null;
-        for (int i = 0; i < distances.size(); i++) {
+
+        ArrayList<Bird> workingCopy = new ArrayList<Bird>();
+        workingCopy.addAll(birds);
+
+        /*double closestDistance = Double.POSITIVE_INFINITY;
+        Bird closestPoint = null;*/
+        /*for (int i = 0; i < distances.size(); i++) {
             if (distances.get(i) < closestDistance) {
                 closestDistance = distances.get(i);
             }
         }
         for (int i = 0; i < distances.size(); i++) {
             if (distances.get(i) == closestDistance) {
-                candidates.add(birds.get(i));
+                birds.remove(i);
             }
+        }*/
+
+
+        for (int i = 0; i < k; i++) {
+            double closestDistance = Double.POSITIVE_INFINITY;
+            int minIndex = 0;
+            for (int l = 0; l < workingCopy.size(); l++) {
+                if (getDistance(start, workingCopy.get(l)) < closestDistance) {
+                    closestDistance = getDistance(start, workingCopy.get(l));
+                    minIndex = l;
+
+                }
+            }
+            candidates.add(workingCopy.get(minIndex));
+            workingCopy.remove(workingCopy.get(minIndex));
+        }
+        /*
+        for (int i = 0; i < k; i++) {
+            candidates.add(birds.get(i));
         }
         for (int i = 0; i < distances.size(); i++) {
-            if (candidates.size() < k) {
-                candidates.add(birds.get(i));
-            } else {
-                for (int l = 0; l < candidates.size(); l++) {
-                    if (distances.get(i) > getDistance(start, candidates.get(l))) {
-                        candidates.set(l, birds.get(i));
-                        break;
-                    }
+            for (int l = 0; l < candidates.size(); l++) {
+                if (distances.get(i) < getDistance(start, candidates.get(l))) {
+                    candidates.set(l, birds.get(i));
+                    break;
                 }
             }
         }
+        */
+
 
         // Find president
         int Accipitridae = 0;
         int Cathartidae = 0;
         int Passeridae = 0;
+
 
         for (int i = 0; i < candidates.size(); i++) {
             if (candidates.get(i).label.equals("Accipitridae")) {

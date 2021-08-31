@@ -25,7 +25,7 @@ public class MyProgram
             for (int i = 0; i < T; i++) {
                 ArrayList<Bird> birds = new ArrayList<Bird>();
                 ArrayList<Bird> unknowns = new ArrayList<Bird>();
-                BirdWatching grader = new BirdWatching(birds, unknowns);
+                Grader grader = new Grader(birds, unknowns);
                 // Get the Line
                 inLine = br.readLine();
                 String[] birdNums = inLine.split(" ");
